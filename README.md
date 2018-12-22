@@ -1,1 +1,2 @@
 # AnsiblePlayground
+- `docker swarm init`
