@@ -1,0 +1,16 @@
+---
+- name: Create gitlab-runner
+  docker_swarm_service:
+    name: "{{ item }}"
+    image: gitlab/gitlab-runner
+    mounts:
+      - source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        type: bind
+      - source: /srv/gitlab-runner/config
+        target: /etc/gitlab-runner
+        type: bind
+  with_items: 
+    - gitlab-runner-1
+    - gitlab-runner-2
+    - gitlab-runner-3       
