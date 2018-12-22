@@ -1,0 +1,24 @@
+---
+
+- name: run the playbook tasks on the localhost
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: print out the hostname of target
+    command: hostname
+  - name: Create a data container
+    docker_swarm_service:
+      name: portainer
+      image: portainer/portainer
+      user: null
+      mounts:
+        - source: /var/run/docker.sock
+          target: /var/run/docker.sock
+          type: bind
+        - source: portainer_data
+          target: /data
+          type: volume
+      publish:
+        - published_port: 4000
+          target_port: 9000
+      state: present

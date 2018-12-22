@@ -1,0 +1,26 @@
+---
+- name: Create gitlab container
+  docker_swarm_service:
+    name: my-gitlab
+    image: gitlab/gitlab-ce
+    user: root
+    hostname: gitlab
+    env: 
+      - "GITLAB_OMNIBUS_CONFIG=gitlab_rails['gitlab_shell_ssh_port'] = 2224;"
+    publish:
+      - published_port: 8080
+        target_port: 80
+      - published_port: 4443
+        target_port: 443
+      - published_port: 2224
+        target_port: 22
+    mounts:
+      - source: /srv/gitlab/config
+        target: /etc/gitlab
+        type: bind
+      - source: /srv/gitlab/logs
+        target: /var/log/gitlab
+        type: bind
+      - source: /srv/gitlab/data
+        target: /var/opt/gitlab
+        type: bind

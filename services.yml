@@ -1,0 +1,5 @@
+---
+- name: Setup Docker Services
+  hosts: local
+  roles:
+    - gitlab
