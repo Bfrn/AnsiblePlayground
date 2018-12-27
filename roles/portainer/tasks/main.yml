@@ -6,7 +6,7 @@
       --replicas=1 \
       --network my-net \
       --label traefik.port=9000
-      --label traefik.frontend.rule=Host:blog.localhost
+      --label traefik.frontend.rule=Host:portainer.localhost
       --constraint 'node.role == manager' \
       --mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
       --mount type=volume,src=portainer_data,dst=/data \

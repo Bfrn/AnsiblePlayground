@@ -14,3 +14,20 @@
     - gitlab-runner-3
 
 
+- name: Register gitlab-runners services
+  shell: docker exec $(docker ps -q -f name="{{ item }}" ) \
+      gitlab-runner \
+      register \
+      -n \
+      -r <token> \
+      -u http://gitlab/ \
+      --executor docker \
+      --docker-image docker:latest \
+      --docker-network-mode my-net \
+      --docker-volumes "/var/run/docker.sock:/var/run/docker.sock"
+  with_items: 
+    - gitlab-runner-1
+    - gitlab-runner-2
+    - gitlab-runner-3
+
+
