@@ -10,7 +10,7 @@
       - "--docker-image docker:latest"
       - "--docker-volumes /var/run/docker.sock:/var/run/docker.sock"
       - "--url \"http://my-gitlab\""
-      - "--registration-token \"ZKs2N89FjYxQxqWQvmgK\""
+      - "--registration-token \"<token>\""
       - "--tag-list dog-cat-cluster,stag,prod"
     mounts:
       - source: /var/run/docker.sock
