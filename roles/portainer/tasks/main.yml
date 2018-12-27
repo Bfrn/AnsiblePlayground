@@ -1,20 +1,13 @@
 ---
-- name: print out the hostname of target
-  command: hostname
-
-- name: Create a portainer container
-  docker_swarm_service:
-    name: portainer_swarm
-    image: portainer/portainer
-    user: null
-    mounts:
-      - source: /var/run/docker.sock
-        target: /var/run/docker.sock
-        type: bind
-      - source: portainer_data
-        target: /data
-        type: volume
-    publish:
-      - published_port: 4000
-        target_port: 9000
-    state: present
+- name: Run portainer service
+  command: >
+    docker service create \
+      --name portainer \
+      --replicas=1 \
+      --network my-net \
+      --label traefik.port=9000
+      --label traefik.frontend.rule=Host:blog.localhost
+      --constraint 'node.role == manager' \
+      --mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
+      --mount type=volume,src=portainer_data,dst=/data \
+      portainer/portainer \
