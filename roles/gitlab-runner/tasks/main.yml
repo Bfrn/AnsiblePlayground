@@ -16,7 +16,7 @@
 
 - name: Register gitlab-runners services
   shell: |
-    docker exec $( docker ps -q -f name=gitlab-runner-1 ) bash -c ' \
+    docker exec $( docker ps -q -f name="{{ item }}" ) bash -c ' \
     gitlab-runner \
     register \
     -n \
