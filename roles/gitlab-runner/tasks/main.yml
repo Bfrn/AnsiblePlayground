@@ -5,6 +5,7 @@
       --name "{{ item }}" \
       --replicas=1 \
       --network my-net \
+      --secret gitlab-runner-token
       --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
       --mount type=bind,src=/srv/gitlab-runner/config,dst=/etc/gitlab-runner \
       gitlab/gitlab-runner
@@ -13,21 +14,19 @@
     - gitlab-runner-2
     - gitlab-runner-3
 
-
 - name: Register gitlab-runners services
-  shell: docker exec $(docker ps -q -f name="{{ item }}" ) \
-      gitlab-runner \
-      register \
-      -n \
-      -r <token> \
-      -u http://gitlab/ \
-      --executor docker \
-      --docker-image docker:latest \
-      --docker-network-mode my-net \
-      --docker-volumes "/var/run/docker.sock:/var/run/docker.sock"
+  shell: |
+    docker exec $( docker ps -q -f name=gitlab-runner-1 ) bash -c ' \
+    gitlab-runner \
+    register \
+    -n \
+    -r $(cat /run/secrets/gitlab-runner-token) \
+    -u "http://gitlab/" \
+    --executor docker \
+    --docker-image docker:latest \
+    --docker-network-mode my-net \
+    --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" ' \
   with_items: 
     - gitlab-runner-1
     - gitlab-runner-2
     - gitlab-runner-3
-
-
