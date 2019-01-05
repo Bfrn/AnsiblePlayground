@@ -6,14 +6,17 @@
       --replicas=1 \
       --network my-net \
       --secret gitlab-runner-token
+      --entrypoint	"/bin/bash -c"
       --constraint 'node.role == manager'
       --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
       gitlab/gitlab-runner \
+      'gitlab-runner \
       register \
       -n \
       -u "http://gitlab" \
-      -r twrGiAYusokXHsuNqsQN \
+      -r $(cat /run/secrets/gitlab-runner-token)  \
       --executor docker \
       --docker-image docker:latest \
       --docker-network-mode my-net \
-      --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" 
+      --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \
+      && gitlab-runner run --user=gitlab-runner --working-directory=/home/gitlab-runner'
