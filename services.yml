@@ -2,7 +2,7 @@
 - name: Setup Docker Services
   hosts: local
   roles:
-    - traefik
-    - portainer
-    - gitlab
+    #- traefik
+    #- portainer
+    #- gitlab
     - gitlab-runner
