@@ -1,6 +1,6 @@
 # AnsiblePlayground
 ## create secret api-key
-`printf "<api-runner-token>" | docker secret create gitlab-runner-token -`
+`printf "twrGiAYusokXHsuNqsQN" | docker secret create gitlab-runner-token -`
 ## init swarm on local machine
 `docker swarm init`
 ## init network for swarm services

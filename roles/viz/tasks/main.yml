@@ -1,0 +1,9 @@
+---
+- name: Run visualizer service
+  command: >
+    docker service create \
+      --name=viz \
+      --publish=4002:8080/tcp \
+      --constraint=node.role==manager \
+      --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+      dockersamples/visualizer
